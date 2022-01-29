@@ -21,6 +21,14 @@
  */
 #pragma once
 
+
+#ifdef PRINTER_NAME_FB4S
+  #define FIL_RUNOUT_LEVEL  HIGH
+  #else
+  #define FIL_RUNOUT_LEVEL  LOW
+#endif 
+
+
 /**
  * MKS Robin Nano board common pin assignments
  */
@@ -139,12 +147,19 @@
     #define SUICIDE_PIN                     PB2
     #define SUICIDE_PIN_STATE               LOW
   #else
-    #define PS_ON_PIN                       PB2   // PW_OFF
+    #define PS_ON_PIN                       PE5   // PW_OFF
   #endif
-  #ifdef MARLIN_CONFIG_MY
-    #define KILL_PIN                          PA2
-    #define KILL_PIN_STATE                    HIGH
-  #endif
+  
+  #undef SUICIDE_PIN
+  #undef SUICIDE_PIN_STATE
+  #undef KILL_PIN
+  #undef KILL_PIN_STATE
+
+  #define SUICIDE_PIN                       PE5
+  #define SUICIDE_PIN_STATE                 LOW 
+  #define KILL_PIN                          PA2
+  #define KILL_PIN_STATE                    HIGH
+  
 #endif
 
 //
@@ -247,4 +262,61 @@
  #define MKS_WIFI_IO_RST                    PA5
 #endif
 
+#ifdef PRINTER_NAME_REBORN
+  #define TFT_ROTATION TFT_ROTATE_180
 
+  #ifndef XPT2046_X_CALIBRATION
+  #define XPT2046_X_CALIBRATION           -17253
+  #endif
+  #ifndef XPT2046_Y_CALIBRATION
+    #define XPT2046_Y_CALIBRATION          11579
+  #endif
+  #ifndef XPT2046_X_OFFSET
+    #define XPT2046_X_OFFSET               515
+  #endif
+  #ifndef XPT2046_Y_OFFSET
+    #define XPT2046_Y_OFFSET               -24
+  #endif
+
+  #else
+  #ifndef XPT2046_X_CALIBRATION
+    #define XPT2046_X_CALIBRATION          17880
+  #endif
+  #ifndef XPT2046_Y_CALIBRATION
+    #define XPT2046_Y_CALIBRATION         -12234
+  #endif
+  #ifndef XPT2046_X_OFFSET
+    #define XPT2046_X_OFFSET               -45
+  #endif
+  #ifndef XPT2046_Y_OFFSET
+    #define XPT2046_Y_OFFSET               349
+  #endif
+  
+#endif
+
+
+
+#if HAS_TMC220x
+  /**
+   * TMC2208/TMC2209 stepper drivers
+   */
+  //
+  // Software serial
+  //
+  #define X_SERIAL_TX_PIN                   PB2
+  #define X_SERIAL_RX_PIN                   PB2
+
+  #define Y_SERIAL_TX_PIN                   PB2
+  #define Y_SERIAL_RX_PIN                   PB2
+
+  #ifndef PRINTER_NAME_REBORN
+    #define Z_SERIAL_TX_PIN                 PB2
+    #define Z_SERIAL_RX_PIN                 PB2
+  #endif
+
+  #define E0_SERIAL_TX_PIN                  PB2
+  #define E0_SERIAL_RX_PIN                  PB2
+
+  // Reduce baud rate to improve software serial reliability
+  #define TMC_BAUD_RATE 19200
+#endif
