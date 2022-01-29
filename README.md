@@ -23,7 +23,7 @@
 
 
 ## Главное
-Обновлено 17.01.2022
+Обновлено 29.01.2022
 - WiFi интерфейс для управления принтером и передачи файлов
 - активирован Linear Advance
 - активирована возможность использовать встроенные в прошивку ретракты (командами G10, G11)
@@ -39,6 +39,7 @@
 - по умолчанию стоит ограничение на ускорения осей - 3000 мм/сек\*сек, скорость - 250 мм/сек
 - интерфейс - стандартный графический с измененным главным экраном
 - выбор языка интерфейса - английский или русский
+- хранение настроек (EEPROM) во внешней SPI-флэш W25Q64
 
 ## Соответствие вариантов прошивки разным платам
 Прошивка собрана в нескольких вариантах, каждый из которых подходит к определенной плате, которая встречается в принтере Reborn.
@@ -56,7 +57,7 @@
 Главный экран был полностью переработан для обоих режимов - в простое и при печати.
 
 ### Новый главный экран в режиме простоя
-![MainScreenStandby](IMG/main_screen_standby_1.1.jpg)
+![MainScreenStandby](IMG/main_screen_standby_1.7.jpg)
 Убран блок с координатами осей, его место в центре экрана теперь занимает полоса прогресса печати. Координаты осей X и Y в подавляющем большинстве случаев не нужны пользователю на главном экране, поэтому они полностью удалены. Координата оси Z перенесена в верхнюю строку состояния.
 Вверху экрана добавлена строка состояния, в которой отображаются координата оси Z, текущая скорость движения сопла и время печати. В режиме простоя время печати будет показывать время последней завершенной печати или нули если после включения принтера печать не производилась.
 Показания значений температуры сопла и стола, а так же вращения кулера указываются одной строчкой под соответствующей иконкой. Изменение цвета иконки происходит следующим образом:
@@ -69,7 +70,7 @@
 В самом низу экрана находится место для сообщений системы или слайсера (через код M117).
 
 ### Новый главный экран в режиме печати
-![MainScreenPrint](IMG/main_screen_print_1.1.jpg)
+![MainScreenPrint](IMG/main_screen_print_1.7.jpg)
 Здесь все аналогично эерану простоя, но с некоторыми изменениями.
 В строке статуса время печати дополняется через "/" предполагаемым оставшимся временем печати. Этот показатель появляется не сразу, а через одну минуту после начала печати (не считая времени ожидания нагрева стола и сопла). До этого момента там отображаются прочерки. Цвет времени печати красный пока идет ожидание нагрева сопла или стола.
 Под иконками сопла и стола показатель текущей температуры дополняется показателем заданной температуры.
@@ -105,14 +106,17 @@
 К сожалению, настройка WiFi (имя точки доступа и пароль) пока никак не реализована. Чтобы настроить работу WiFi, нужно сделать это в родной прошивке (от MKS), после чего можно обновляться на эту прошивку. Параметры настройки сохранятся.
 
 ## История
-
-### --.--.2022
-**v1.7** (в разработке)
+### 29.01.2022
+**v1.7**
+- на главный экран добавлены кнопки быстрого доступа к настройкам потока (flowrate) и скорости (feedrate) с показом текущего значения
 - в меню настроек температуры добавлена настройка типов термисторов для сопла и стола; пока доступен выбор из 4 распространенных типов, при запросах на другие типы они будут добавляться
-- на главный экран добавлены кнопки быстрого доступа к настройкам потока (flowrate) и скорости (feedrate)
+- ядро Марлина обновлено до версии 2.0.9.3
 - сохранение настроек (EEPROM) переведено на внешнюю SPI-флэш W25Q64
 - настройка отключения питания по окончанию печати продублирована в меню "Тюнинг", доступное с экрана статуса во время печати
 - исправлено автовыключение по завершению печати - теперь принтер ждет остывания сопла перед тем как выключиться (при наличии модуля управления питанием PWC)
+- при хоминге теперь первой двигается ось Y
+- поправлены максимальные значения в настройках скорости (feedrate), потока (flowrate) и параметров ректракта
+- в меню тюнинга добавлена настройка длины ретракта и убраны настройки скорости (feedrate) и потока (flowrate), т.к. они теперь доступны прямо с главного экрана
 
 ### 17.01.2022
 **v1.6**
@@ -196,7 +200,7 @@ Based on [Marlin 3D Printer Firmware] (https://github.com/MarlinFirmware/Marlin)
 * [Version history](#version-history)
 
 ## The main thing
-(updated 01/17/2022)
+(updated 01/29/2022)
 - activated Linear Advance
 - WiFi interface for printer control and file transfer
 - the filament end sensor is active
@@ -212,6 +216,7 @@ Based on [Marlin 3D Printer Firmware] (https://github.com/MarlinFirmware/Marlin)
 - by default, there is a limit on the acceleration of the axes - 3000 mm/s\*s, speed - 250 mm/s
 - interface - standard graphical with a modified main screen
 - choice of interface language - English or Russian
+- storage of settings (EEPROM) in an external SPI flash W25Q64
 
 ## Correspondence of firmware variants to different boards
 The firmware is assembled in several variants, each of which is suitable for a specific board that is found in the Reborn printer.
@@ -229,7 +234,7 @@ Variant **v_Robin_Nano_SM_1.3_x16** is suitable for the same boards if the user 
 The home screen has been completely redesigned for both idle and print modes.
 
 ### New home screen in idle mode
-![MainScreenStandby](IMG/main_screen_standby_1.1.jpg)
+![MainScreenStandby](IMG/main_screen_standby_1.7.jpg)
 The block with the coordinates of the axes has been removed, its place in the center of the screen is now occupied by the print progress bar. The X and Y axis coordinates in the vast majority of cases are not needed by the user on the home screen, so they are completely removed. The Z axis coordinate has been moved to the top status bar.
 A status bar has been added to the top of the screen that displays the Z-axis coordinate, current nozzle speed, and print time. In idle mode, the print time will show the time of the last completed print, or zeros if no print was performed after turning on the printer.
 The readings of the temperatures of the nozzle and the table, as well as the rotation of the cooler are indicated in one line under the corresponding icon. Changing the color of the icon is as follows:
@@ -242,7 +247,7 @@ Action icons are located under the print progress. For idle mode, there are thre
 At the very bottom of the screen there is a place for system or slicer messages (via the M117 code).
 
 ### New main screen in print mode
-![MainScreenPrint](IMG/main_screen_print_1.1.jpg)
+![MainScreenPrint](IMG/main_screen_print_1.7.jpg)
 Everything here is similar to that of idle time, but with some changes.
 In the status line, the print time is supplemented by "/" with the estimated remaining print time. This indicator does not appear immediately, but one minute after the start of printing (not counting the waiting time for the heating of the table and nozzle). Up to this point, dashes are displayed there. The print time color is red while waiting for the nozzle or platen to heat up.
 Under the nozzle and table icons, the current temperature is supplemented by the set temperature.
@@ -278,6 +283,18 @@ Attention! Make sure your printer has a compatible control board!
 Unfortunately, the WiFi setting (hotspot name and password) has not been implemented yet. To set up WiFi, you need to do it in the native firmware (from MKS), after which you can update to this firmware. The settings will be saved.
 
 ## Version history
+### 01/29/2022
+**v1.7**
+- buttons for quick access to the settings of the flow (flowrate) and speed (feedrate) have been added to the main screen, with showing the current value
+- in the temperature settings menu, the setting of thermistor types for the nozzle and bed has been added; while there is a choice of 4 common types, requests for other types will be added
+- Marlin core updated to version 2.0.9.3
+- save settings (EEPROM) transferred to external SPI-flash W25Q64
+- the setting for turning off the power at the end of printing is duplicated in the "Tuning" menu, accessible from the status screen during printing
+- fixed auto-shutdown on completion of printing - now the printer waits for the nozzle to cool down before turning off (if there is a PWC power control module)
+- when homing, the y-axis now moves first
+- fixed max values in feedrate, flowrate and retract settings
+- in the tuning menu, the retract length setting has been added, the speed (feedrate) and flow (flowrate) settings have been removed, because they are now available directly from the status screen
+
 ### 01/17/2022
 **v1.6**
 - the work of the firmware with the power control unit (PSU) MKS PWC is activated; if this module is present, the printer can automatically turn off the power when an error is detected - for example, uncontrolled heating of the hotend or table; turn off the printer on the command of the module is disabled so that the printer does not turn off by itself if there is no power management module
