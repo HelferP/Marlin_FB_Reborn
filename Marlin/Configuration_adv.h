@@ -2935,12 +2935,11 @@
   //#define  I_SLAVE_ADDRESS 0
   //#define  J_SLAVE_ADDRESS 0
   //#define  K_SLAVE_ADDRESS 0
-  #ifdef PRINTER_NAME_REBORN
-    #define E0_SLAVE_ADDRESS 2
-  #else
+  #ifndef PRINTER_NAME_REBORN
     #define  Z_SLAVE_ADDRESS 2
-    #define E0_SLAVE_ADDRESS 3
   #endif 
+  #define E0_SLAVE_ADDRESS 3
+
   
   //#define E1_SLAVE_ADDRESS 0
   //#define E2_SLAVE_ADDRESS 0

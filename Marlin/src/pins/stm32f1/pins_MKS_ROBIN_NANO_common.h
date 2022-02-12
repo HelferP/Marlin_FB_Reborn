@@ -147,7 +147,7 @@
     #define SUICIDE_PIN                     PB2
     #define SUICIDE_PIN_STATE               LOW
   #else
-    #define PS_ON_PIN                       PE5   // PW_OFF
+    #define PS_ON_PIN                       PB2   // PW_OFF
   #endif
   
   #undef SUICIDE_PIN
@@ -155,7 +155,7 @@
   #undef KILL_PIN
   #undef KILL_PIN_STATE
 
-  #define SUICIDE_PIN                       PE5
+  #define SUICIDE_PIN                       PB2
   #define SUICIDE_PIN_STATE                 LOW 
   #define KILL_PIN                          PA2
   #define KILL_PIN_STATE                    HIGH
@@ -303,19 +303,19 @@
   //
   // Software serial
   //
-  #define X_SERIAL_TX_PIN                   PB2
-  #define X_SERIAL_RX_PIN                   PB2
+  #define X_SERIAL_TX_PIN                   PE5
+  #define X_SERIAL_RX_PIN                   PE5
 
-  #define Y_SERIAL_TX_PIN                   PB2
-  #define Y_SERIAL_RX_PIN                   PB2
+  #define Y_SERIAL_TX_PIN                   PE5
+  #define Y_SERIAL_RX_PIN                   PE5
 
   #ifndef PRINTER_NAME_REBORN
-    #define Z_SERIAL_TX_PIN                 PB2
-    #define Z_SERIAL_RX_PIN                 PB2
+    #define Z_SERIAL_TX_PIN                 PE5
+    #define Z_SERIAL_RX_PIN                 PE5
   #endif
 
-  #define E0_SERIAL_TX_PIN                  PB2
-  #define E0_SERIAL_RX_PIN                  PB2
+  #define E0_SERIAL_TX_PIN                  PE5
+  #define E0_SERIAL_RX_PIN                  PE5
 
   // Reduce baud rate to improve software serial reliability
   #define TMC_BAUD_RATE 19200
