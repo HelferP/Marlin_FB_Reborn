@@ -2701,10 +2701,10 @@
     #define Z_CURRENT_VAL 800
     #define E0_CURRENT_VAL 650
   #else
-    #define X_CURRENT_VAL 950
+    #define X_CURRENT_VAL 730
     #define Y_CURRENT_VAL 1050
     #define Z_CURRENT_VAL 800
-    #define E0_CURRENT_VAL 550
+    #define E0_CURRENT_VAL 250
   #endif 
 
   #define HOLD_MULTIPLIER    0.5  // Scales down the holding current from run current

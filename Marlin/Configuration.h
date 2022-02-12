@@ -1010,7 +1010,7 @@
 #else
 #define DEFAULT_AXIS_STEPS_PER_UNIT \
   {                                 \
-    80, 80, 400, 408.2              \
+    80, 80, 400, 690              \
   }
 #endif
 
@@ -1064,9 +1064,9 @@
 #define DEFAULT_RETRACT_ACCELERATION 3000 // E acceleration for retracts
 #define DEFAULT_TRAVEL_ACCELERATION 3000  // X, Y, Z acceleration for travel (non printing) moves
 #else
-#define DEFAULT_ACCELERATION 1300         // X, Y, Z and E acceleration for printing moves
+#define DEFAULT_ACCELERATION 1500         // X, Y, Z and E acceleration for printing moves
 #define DEFAULT_RETRACT_ACCELERATION 3000 // E acceleration for retracts
-#define DEFAULT_TRAVEL_ACCELERATION 1300  // X, Y, Z acceleration for travel (non printing) moves
+#define DEFAULT_TRAVEL_ACCELERATION 1500  // X, Y, Z acceleration for travel (non printing) moves
 #endif
 
 /**
@@ -1084,7 +1084,7 @@
 #define DEFAULT_YJERK 18.0
 #define DEFAULT_ZJERK 0.5
 #else
-#define DEFAULT_XJERK 14.0
+#define DEFAULT_XJERK 15.0
 #define DEFAULT_YJERK 15.0
 #define DEFAULT_ZJERK 0.5
 #endif
