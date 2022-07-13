@@ -42,7 +42,7 @@
 
 //#define PRINTER_NAME_FB5
 //#define PRINTER_NAME_FB4S
-#define PRINTER_NAME_REBORN
+//#define PRINTER_NAME_REBORN
 
 //===========================================================================
 //============================= Getting Started =============================
@@ -1010,7 +1010,7 @@
 #else
 #define DEFAULT_AXIS_STEPS_PER_UNIT \
   {                                 \
-    80, 80, 400, 690              \
+    80, 80, 400, 691              \
   }
 #endif
 
@@ -1080,8 +1080,8 @@
 #define CLASSIC_JERK
 #if ENABLED(CLASSIC_JERK)
 #ifdef PRINTER_NAME_REBORN
-#define DEFAULT_XJERK 18.0
-#define DEFAULT_YJERK 18.0
+#define DEFAULT_XJERK 15.0
+#define DEFAULT_YJERK 15.0
 #define DEFAULT_ZJERK 0.5
 #else
 #define DEFAULT_XJERK 15.0
@@ -1114,7 +1114,7 @@
  *   https://blog.kyneticcnc.com/2018/10/computing-junction-deviation-for-marlin.html
  */
 #if DISABLED(CLASSIC_JERK)
-#define JUNCTION_DEVIATION_MM 0.02 // (mm) Distance from real junction edge
+#define JUNCTION_DEVIATION_MM 0.013 // (mm) Distance from real junction edge
 #define JD_HANDLE_SMALL_SEGMENTS   // Use curvature estimation instead of just the junction angle
                                    // for small segments (< 1mm) with large junction angles (> 135°).
 #endif
@@ -2420,7 +2420,7 @@
 // If you have a speaker that can produce tones, enable it here.
 // By default Marlin assumes you have a buzzer with a fixed frequency.
 //
-#define SPEAKER
+//#define SPEAKER
 
 //
 // The duration and frequency for the UI feedback sound.
@@ -2429,8 +2429,8 @@
 // Note: Test audio output with the G-Code:
 //  M300 S<frequency Hz> P<duration ms>
 //
-#define LCD_FEEDBACK_FREQUENCY_DURATION_MS 100
-#define LCD_FEEDBACK_FREQUENCY_HZ 1000
+//#define LCD_FEEDBACK_FREQUENCY_DURATION_MS 100
+//#define LCD_FEEDBACK_FREQUENCY_HZ 1000
 
 //=============================================================================
 //======================== LCD / Controller Selection =========================
