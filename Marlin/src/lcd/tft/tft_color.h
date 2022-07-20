@@ -82,7 +82,7 @@
 #endif
 
 #ifndef COLOR_TEMP_TEXT
-  #define COLOR_TEMP_TEXT         RGB(128, 230, 255)
+  #define COLOR_TEMP_TEXT         COLOR_WHITE //RGB(128, 230, 255)
 #endif
 #ifndef COLOR_INACTIVE
   #define COLOR_INACTIVE          COLOR_DARKGREY2
@@ -121,7 +121,7 @@
   #define COLOR_TOP_FRAME_TEXT    RGB(255, 255, 255)
 #endif
 #ifndef COLOR_TOP_FRAME_TEXT2
-  #define COLOR_TOP_FRAME_TEXT2   RGB(132, 255, 132)
+  #define COLOR_TOP_FRAME_TEXT2   RGB(128, 230, 255) //RGB(132, 255, 132)
 #endif
 
 #ifndef COLOR_MESH_FRAME
@@ -157,7 +157,7 @@
   #define COLOR_PROGRESS_BG       RGB(48, 48, 48)
 #endif
 #ifndef COLOR_PROGRESS_BAR
-  #define COLOR_PROGRESS_BAR      COLOR_VIVID_GREEN
+  #define COLOR_PROGRESS_BAR      RGB(92, 138, 3) //COLOR_VIVID_GREEN
 #endif
 #ifndef COLOR_PROGRESS_TEXT
   #define COLOR_PROGRESS_TEXT     COLOR_WHITE //RGB(255, 255, 132)
