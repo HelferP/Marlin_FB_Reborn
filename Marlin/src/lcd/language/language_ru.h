@@ -156,7 +156,7 @@ namespace Language_ru {
   LSTR  MSG_EXTRUDE                         = _UxGT("Экструзия");
   LSTR  MSG_RETRACT                         = _UxGT("Откат");
   LSTR  MSG_MOVE_AXIS                       = _UxGT("Перемещение осей");
-  LSTR  MSG_BED_LEVELING                    = _UxGT("Выставка стола");
+  LSTR  MSG_BED_LEVELING                    = _UxGT("Калибровка высоты стола");
   LSTR  MSG_LEVEL_BED                       = _UxGT("Сетка кривизны стола");
   LSTR  MSG_BED_TRAMMING                    = _UxGT("Уровень стола");
   LSTR  MSG_NEXT_CORNER                     = _UxGT("Следующий угол");
