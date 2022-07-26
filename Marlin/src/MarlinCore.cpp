@@ -76,6 +76,8 @@
     #include "lcd/e3v2/creality/dwin.h"
   #elif ENABLED(DWIN_LCD_PROUI)
     #include "lcd/e3v2/proui/dwin.h"
+  #elif ENABLED(DWIN_CREALITY_LCD_JYERSUI)
+    #include "lcd/e3v2/jyersui/dwin.h"
   #endif
 #endif
 
@@ -224,10 +226,6 @@
 
 #if HAS_PRUSA_MMU2
   #include "feature/mmu/mmu2.h"
-#endif
-
-#if HAS_L64XX
-  #include "libs/L64XX/L64XX_Marlin.h"
 #endif
 
 #if ENABLED(PASSWORD_FEATURE)
@@ -433,7 +431,7 @@ inline void manage_inactivity(const bool no_stepper_sleep=false) {
 
       if (!has_blocks && !do_reset_timeout && gcode.stepper_inactive_timeout()) {
         if (!already_shutdown_steppers) {
-          already_shutdown_steppers = true;  // L6470 SPI will consume 99% of free time without this
+          already_shutdown_steppers = true;
 
           // Individual axes will be disabled if configured
           TERN_(DISABLE_INACTIVE_X, stepper.disable_axis(X_AXIS));
@@ -737,8 +735,6 @@ inline void manage_inactivity(const bool no_stepper_sleep=false) {
   TERN_(TEMP_STAT_LEDS, handle_status_leds());
 
   TERN_(MONITOR_DRIVER_STATUS, monitor_tmc_drivers());
-
-  TERN_(MONITOR_L6470_DRIVER_STATUS, L64xxManager.monitor_driver());
 
   // Limit check_axes_activity frequency to 10Hz
   static millis_t next_check_axes_ms = 0;
@@ -1072,7 +1068,6 @@ inline void tmc_standby_setup() {
  *    • TMC220x Stepper Drivers (Serial)
  *    • PSU control
  *    • Power-loss Recovery
- *    • L64XX Stepper Drivers (SPI)
  *    • Stepper Driver Reset: DISABLE
  *    • TMC Stepper Drivers (SPI)
  *    • Run hal.init_board() for additional pins setup
@@ -1166,7 +1161,41 @@ void setup() {
   #else
     #define SETUP_LOG(...) NOOP
   #endif
+
   #define SETUP_RUN(C) do{ SETUP_LOG(STRINGIFY(C)); C; }while(0)
+
+  SETUP_RUN(hal.init_board());
+
+  // UI must be initialized before EEPROM
+  // (because EEPROM code calls the UI).
+
+  SETUP_RUN(ui.init());
+
+  #if PIN_EXISTS(SAFE_POWER)
+    #if HAS_DRIVER_SAFE_POWER_PROTECT
+      SETUP_RUN(stepper_driver_backward_check());
+    #else
+      SETUP_LOG("SAFE_POWER");
+      OUT_WRITE(SAFE_POWER_PIN, HIGH);
+    #endif
+  #endif
+
+  #if BOTH(SDSUPPORT, SDCARD_EEPROM_EMULATION)
+    SETUP_RUN(card.mount());          // Mount media with settings before first_load
+  #endif
+
+  delay(100);   // delay while display filled by black
+  #if BOTH(HAS_WIRED_LCD, SHOW_BOOTSCREEN)
+    SETUP_RUN(ui.show_bootscreen());
+    const millis_t bootscreen_ms = millis();
+  #endif
+
+  #if PIN_EXISTS(TFT_BACKLIGHT)
+//    WRITE(TFT_BACKLIGHT_PIN, 1);
+    #if HAS_LCD_BRIGHTNESS
+      ui._set_brightness();
+    #endif
+  #endif
 
   MYSERIAL1.begin(BAUDRATE);
   millis_t serial_connect_timeout = millis() + 1000UL;
@@ -1261,10 +1290,6 @@ void setup() {
     SETUP_RUN(tmc_init_cs_pins());
   #endif
 
-  #if HAS_L64XX
-    SETUP_RUN(L64xxManager.init());  // Set up SPI, init drivers
-  #endif
-
   #if ENABLED(PSU_CONTROL)
     SETUP_LOG("PSU_CONTROL");
     powerManager.init();
@@ -1277,8 +1302,6 @@ void setup() {
   #if HAS_STEPPER_RESET
     SETUP_RUN(disableStepperDrivers());
   #endif
-
-  SETUP_RUN(hal.init_board());
 
   SETUP_RUN(esp_wifi_init());
 
@@ -1322,29 +1345,6 @@ void setup() {
   #endif
 
   TERN_(HAS_FANCHECK, fan_check.init());
-
-  // UI must be initialized before EEPROM
-  // (because EEPROM code calls the UI).
-
-  SETUP_RUN(ui.init());
-
-  #if PIN_EXISTS(SAFE_POWER)
-    #if HAS_DRIVER_SAFE_POWER_PROTECT
-      SETUP_RUN(stepper_driver_backward_check());
-    #else
-      SETUP_LOG("SAFE_POWER");
-      OUT_WRITE(SAFE_POWER_PIN, HIGH);
-    #endif
-  #endif
-
-  #if BOTH(SDSUPPORT, SDCARD_EEPROM_EMULATION)
-    SETUP_RUN(card.mount());          // Mount media with settings before first_load
-  #endif
-
-  #if BOTH(HAS_WIRED_LCD, SHOW_BOOTSCREEN)
-    SETUP_RUN(ui.show_bootscreen());
-    const millis_t bootscreen_ms = millis();
-  #endif
 
   SETUP_RUN(settings.first_load()); // Load data from EEPROM if available (or use defaults)
                                       // This also updates variables in the planner, elsewhere

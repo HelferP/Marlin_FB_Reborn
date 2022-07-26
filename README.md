@@ -7,7 +7,7 @@
 
 ### Собранные готовые файлы прошивки находятся в [разделе Releases](https://github.com/Andy-Big/Marlin_FB_Reborn/releases)
 
-Работает с платами: **MKS Robin Nano v1.3** (съемные драйвера, контроллер STM32F407), **MKS Robin Nano S v1.3** (несъемные драйвера, контроллер STM32F407) и **MKS Robin Nano v1.1** (красная плата со съемными драйверами, контроллер STM32F103, может иметь название Flyingbear Reborn v2.0). Для всех трех плат прошивка построена в двух вариантах - для драйверов с микрошагом 16 и для драйверов с микрошагом 32.
+Работает с платами: **MKS Robin Nano v1.3** (съемные драйвера, контроллер STM32F407), **MKS Robin Nano S v1.3** (несъемные драйвера, контроллер STM32F407) и **MKS Robin Nano v1.1** (красная плата со съемными драйверами, контроллер STM32F103, может иметь название Flyingbear Reborn v2.0).
 ![Interface](IMG/IMG_20211026_223227.jpg)
 
 Основана на [Marlin 3D Printer Firmware](https://github.com/MarlinFirmware/Marlin)  версии 2.1
@@ -24,7 +24,7 @@
 * [История](#история)
 
 ## Главное
-Обновлено 06.07.2022
+Обновлено 23.07.2022
 - WiFi интерфейс для управления принтером и передачи файлов
 - активирован Linear Advance
 - активирована возможность использовать встроенные в прошивку ретракты (командами G10, G11)
@@ -47,14 +47,14 @@
 
 ## Соответствие вариантов прошивки разным платам
 Прошивка собрана в нескольких вариантах, каждый из которых подходит к определенной плате, которая встречается в принтере Reborn.
-1. **v_Robin_Nano_1.1_x16** - предназначена для плат MKS Robin Nano v1.1, известной так же как Flyingbear Reborn v2.0 в стоковой конфигурации.
+1. **v_Robin_Nano_1.1** - предназначена для плат MKS Robin Nano v1.1, известной так же как Flyingbear Reborn v2.0 в стоковой конфигурации.
 <p align="left"><img src="IMG/robin_nano_12_.jpg" width="600px"></p>
 
-2. **v_Robin_Nano_1.3_x32** - предназначена для плат MKS Robin Nano v1.3 со съемными драйверами в стоковой конфигурации.
+2. **v_Robin_Nano_1.3** - предназначена для плат MKS Robin Nano v1.3 со съемными драйверами в стоковой конфигурации.
 <p align="left"><img src="IMG/robin_nano_13.jpg" width="600px"></p>
 
-3. **v_Robin_Nano_S_1.3_x16** - предназначена для плат MKS Robin Nano S v1.3 с четырьмя впаянными и одним съемным драйверами в стоковой конфигурации.
-Вариант **v_Robin_Nano_SM_1.3_x16** подходит для этих же плат если пользователем были переставлены разъемы E0 и E1, то есть мотор экструдера был подключен к съемному драйверу
+3. **v_Robin_Nano_S_1.3** - предназначена для плат MKS Robin Nano S v1.3 с четырьмя впаянными и одним съемным драйверами в стоковой конфигурации.
+Вариант **v_Robin_Nano_SM_1.3** подходит для этих же плат если пользователем были переставлены разъемы E0 и E1, то есть мотор экструдера был подключен к съемному драйверу
 <p align="left"><img src="IMG/robin_nano_s13.jpg" width="600px"></p>
 
 ## Новый главный экран интерфейса
@@ -128,6 +128,16 @@
 Когда прошивка встречает эту команду в коде, она выводит данные из нее в прогресс печати и счетчик оставшегося времени. Если счетчик времени зеленого цвета - значит он получает данные из команды **M73**. Если слайсер не поддерживает эту команду или если по каким-то причинам прощивка не встречает эту команду в течении 3 минут, то она переходит на расчет прогресса и оставшегося времени по внутреннему методу - исходя из размера файла и количества уже считанных из него байт. В этом случае счетчик времени обычного серого цвета.
 
 ## История
+### 23.07.2022
+**v2.0**
+- [Timofey Titovets](https://github.com/Nefelim4ag) с небольшой моей помощью обновил базу Марлина до последней версии 2.1
+- работа с файлами на SD-карте полностью переведена на более современную и удобную файловую библиотеку FatFS
+- подправлена работа модуля WiFi - теперь он корректно отдает статус интерфейсу Beeprint
+- доработана утилита [MKS_WIFI_PS_upload](https://github.com/Andy-Big/MKS-WIFI_uploader/blob/main_uploader/src/dist/MKS_WIFI_PS_upload.exe) - корректная передача имени файла из PrusaSlicer и возможность отправлять на принтер бинарные файлы
+- появилась возможность обновления прошивки принтера через [MKS_WIFI_PS_upload](https://github.com/Andy-Big/MKS-WIFI_uploader/blob/main_uploader/src/dist/MKS_WIFI_PS_upload.exe) - при отправке файла прошивки с именем Robin_nano35.bin принтер после успешного приема этого файла автоматически перезагрузится и обновит прошивку
+- исправлены переводы на русский язык некоторых пунктов настроек
+- применены все последние изменения и багфиксы оригинального Марлина вплоть до 23.07.2022
+
 ### 29.06.2022
 **v1.9.1**
 - добавлена раздельная настройка количества точек сетки кривизны стола по осям X и Y
@@ -243,7 +253,7 @@
 
 ### The bulded ready to flash firmware files are in the [Releases section](https://github.com/Andy-Big/Marlin_FB_Reborn/releases)
 
-Works with boards: **MKS Robin Nano v1.3** (removable drivers, STM32F407 controller), **MKS Robin Nano S v1.3** (non-removable drivers, STM32F407 controller) and **MKS Robin Nano v1.1** (red board with removable drivers, STM32F103 controller, can have the name Flyingbear Reborn v2.0). For all three boards, the firmware is built in two versions - for drivers with microstep 16 and for drivers with microstepping 32.
+Works with boards: **MKS Robin Nano v1.3** (removable drivers, STM32F407 controller), **MKS Robin Nano S v1.3** (non-removable drivers, STM32F407 controller) and **MKS Robin Nano v1.1** (red board with removable drivers, STM32F103 controller, can have the name Flyingbear Reborn v2.0).
 ![Interface](IMG/IMG_20211026_223227.jpg)
 
 Based on [Marlin 3D Printer Firmware](https://github.com/MarlinFirmware/Marlin) version 2.1
@@ -260,7 +270,7 @@ Based on [Marlin 3D Printer Firmware](https://github.com/MarlinFirmware/Marlin) 
 * [Version history](#version-history)
 
 ## The main thing
-Updated 07/06/2022
+Updated 07/23/2022
 - activated Linear Advance
 - WiFi interface for printer control and file transfer
 - the filament end sensor is active
@@ -283,14 +293,14 @@ Updated 07/06/2022
 
 ## Correspondence of firmware variants to different boards
 The firmware is assembled in several variants, each of which is suitable for a specific board that is found in the Reborn printer.
-1. **v_Robin_Nano_1.1_x16** - designed for MKS Robin Nano v1.1 boards, also known as Flyingbear Reborn v2.0 in the stock configuration.
+1. **v_Robin_Nano_1.1** - designed for MKS Robin Nano v1.1 boards, also known as Flyingbear Reborn v2.0 in the stock configuration.
 <p align = "left"><img src = "IMG/robin_nano_12_.jpg" width = "600px"></p>
 
-2. **v_Robin_Nano_1.3_x32** - intended for MKS Robin Nano v1.3 boards with removable drivers in the stock configuration.
+2. **v_Robin_Nano_1.3** - intended for MKS Robin Nano v1.3 boards with removable drivers in the stock configuration.
 <p align = "left"><img src = "IMG/robin_nano_13.jpg" width = "600px"></p>
 
-3. **v_Robin_Nano_S_1.3_x16** - designed for MKS Robin Nano S v1.3 boards with four soldered and one removable drivers in the stock configuration.
-Variant **v_Robin_Nano_SM_1.3_x16** is suitable for the same boards if the user rearranged connectors E0 and E1, that is, the extruder motor was connected to the removable driver.
+3. **v_Robin_Nano_S_1.3** - designed for MKS Robin Nano S v1.3 boards with four soldered and one removable drivers in the stock configuration.
+Variant **v_Robin_Nano_SM_1.3** is suitable for the same boards if the user rearranged connectors E0 and E1, that is, the extruder motor was connected to the removable driver.
 <p align = "left"><img src = "IMG/robin_nano_s13.jpg" width = "600px"></p>
 
 # New main interface screen
@@ -363,6 +373,16 @@ The **M73** command is inserted into the g-code by the slicer. In this command, 
 When the firmware encounters this command in the code, it outputs data from it to the print progress and the remaining time counter. If the time counter is green, then it is receiving data from the **M73** command. If the slicer does not support this command or if for some reason the firmware does not meet this command within 3 minutes, then it switches to calculating the progress and the remaining time using the internal method - based on the file size and the number of bytes already read from it. In this case, the time counter is a normal gray color.
 
 ## Version history
+
+### 07/23/2022
+**v2.0**
+- [Timofey Titovets](https://github.com/Nefelim4ag) updated the Marlin base to the latest version 2.1 with a little help from me
+- work with files on the SD card has been completely transferred to a more modern and convenient file library FatFS
+- fixed the work of the WiFi module - now it correctly gives the status to the Beeprint interface
+- improved utility [MKS_WIFI_PS_upload](https://github.com/Andy-Big/MKS-WIFI_uploader/blob/main_uploader/src/dist/MKS_WIFI_PS_upload.exe) - correct transmission of the file name from PrusaSlicer and the ability to send binary files to the printer
+- added the ability to update the printer firmware via [MKS_WIFI_PS_upload](https://github.com/Andy-Big/MKS-WIFI_uploader/blob/main_uploader/src/dist/MKS_WIFI_PS_upload.exe) - when sending a firmware file named Robin_nano35.bin printer after successfully receiving this file, it will automatically reboot and update the firmware
+- fixed translations into Russian of some settings items
+- applied all the latest changes and bug fixes of the original Marlin up to 07/23/2022
 
 ### 06/29/2022
 **v1.9.1**
