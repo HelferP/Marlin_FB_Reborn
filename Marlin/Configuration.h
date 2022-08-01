@@ -665,12 +665,12 @@
   #else
 #ifdef PRINTER_NAME_REBORN
   #define DEFAULT_Kp 16.11
-  #define DEFAULT_Ki 0.212
-  #define DEFAULT_Kd 306.16
+  #define DEFAULT_Ki 1.3
+  #define DEFAULT_Kd 48.9
 #else
-  #define DEFAULT_Kp 16.11
-  #define DEFAULT_Ki 0.212
-  #define DEFAULT_Kd 306.16
+  #define DEFAULT_Kp 16.09
+  #define DEFAULT_Ki 1.3
+  #define DEFAULT_Kd 55.2
 //  #define DEFAULT_Kp 14.46
 //  #define DEFAULT_Ki 0.89
 //  #define DEFAULT_Kd 58.53
