@@ -266,16 +266,16 @@
   #define TFT_ROTATION TFT_ROTATE_180
 
   #ifndef XPT2046_X_CALIBRATION
-  #define XPT2046_X_CALIBRATION           -17253
+  #define XPT2046_X_CALIBRATION           -17039
   #endif
   #ifndef XPT2046_Y_CALIBRATION
-    #define XPT2046_Y_CALIBRATION          11579
+    #define XPT2046_Y_CALIBRATION          11267
   #endif
   #ifndef XPT2046_X_OFFSET
-    #define XPT2046_X_OFFSET               515
+    #define XPT2046_X_OFFSET               508
   #endif
   #ifndef XPT2046_Y_OFFSET
-    #define XPT2046_Y_OFFSET               -24
+    #define XPT2046_Y_OFFSET               -16
   #endif
 
   #else
