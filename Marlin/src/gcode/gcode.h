@@ -323,6 +323,10 @@
  *** "T" Codes ***
  *
  * T0-T3 - Select an extruder (tool) by index: "T<n> F<units/min>"
+ * 
+ * 
+ * M5000 - Store parameters in .ini file. 
+ * M5001 - Load parameters from .ini file. 
  */
 
 #include "../inc/MarlinConfig.h"
@@ -1237,6 +1241,11 @@ private:
 
   static void T(const int8_t tool_index);
 
+
+
+
+    static void M5000();
+    static void M5001();
 };
 
 extern GcodeSuite gcode;

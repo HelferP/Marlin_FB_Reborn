@@ -31,6 +31,7 @@
 #include "../../../module/motion.h"
 #include "../../../module/printcounter.h"
 #include "../../../sd/cardreader.h"
+#include "../../../module/settings.h"
 
 #if ENABLED(POWER_LOSS_RECOVERY)
   #include "../../../feature/powerloss.h"
@@ -62,21 +63,22 @@
  */
 void GcodeSuite::M125() {
   // Initial retract before move to filament change position
-  const float retract = TERN0(HAS_EXTRUDERS, -ABS(parser.axisunitsval('L', E_AXIS, PAUSE_PARK_RETRACT_LENGTH)));
+  const float retract = TERN0(HAS_EXTRUDERS, -ABS(parser.axisunitsval('L', E_AXIS, moving_settings.pause.retract_length)));
 
-  xyz_pos_t park_point = NOZZLE_PARK_POINT;
+//  xyz_pos_t park_point = NOZZLE_PARK_POINT;
+  xyz_pos_t park_point = {moving_settings.pause.park_point_x, moving_settings.pause.park_point_y, moving_settings.pause.park_point_z};
 
   // Move to filament change position or given position
   NUM_AXIS_CODE(
     if (parser.seenval('X')) park_point.x = RAW_X_POSITION(parser.linearval('X')),
     if (parser.seenval('Y')) park_point.y = RAW_Y_POSITION(parser.linearval('Y')),
     NOOP,
-    if (parser.seenval(AXIS4_NAME)) park_point.i = RAW_X_POSITION(parser.linearval(AXIS4_NAME)),
-    if (parser.seenval(AXIS5_NAME)) park_point.j = RAW_X_POSITION(parser.linearval(AXIS5_NAME)),
-    if (parser.seenval(AXIS6_NAME)) park_point.k = RAW_X_POSITION(parser.linearval(AXIS6_NAME)),
-    if (parser.seenval(AXIS7_NAME)) park_point.u = RAW_X_POSITION(parser.linearval(AXIS7_NAME)),
-    if (parser.seenval(AXIS8_NAME)) park_point.v = RAW_X_POSITION(parser.linearval(AXIS8_NAME)),
-    if (parser.seenval(AXIS9_NAME)) park_point.w = RAW_X_POSITION(parser.linearval(AXIS9_NAME))
+    if (parser.seenval(AXIS4_NAME)) park_point.i = RAW_I_POSITION(parser.linearval(AXIS4_NAME)),
+    if (parser.seenval(AXIS5_NAME)) park_point.j = RAW_J_POSITION(parser.linearval(AXIS5_NAME)),
+    if (parser.seenval(AXIS6_NAME)) park_point.k = RAW_K_POSITION(parser.linearval(AXIS6_NAME)),
+    if (parser.seenval(AXIS7_NAME)) park_point.u = RAW_U_POSITION(parser.linearval(AXIS7_NAME)),
+    if (parser.seenval(AXIS8_NAME)) park_point.v = RAW_V_POSITION(parser.linearval(AXIS8_NAME)),
+    if (parser.seenval(AXIS9_NAME)) park_point.w = RAW_W_POSITION(parser.linearval(AXIS9_NAME))
   );
 
   // Lift Z axis

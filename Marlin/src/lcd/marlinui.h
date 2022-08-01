@@ -254,20 +254,19 @@ public:
   #endif
 
   #if HAS_LCD_BRIGHTNESS
-    #ifndef LCD_BRIGHTNESS_MIN
-      #define LCD_BRIGHTNESS_MIN   1
-    #endif
-    #ifndef LCD_BRIGHTNESS_MAX
-      #define LCD_BRIGHTNESS_MAX 255
-    #endif
     #ifndef LCD_BRIGHTNESS_DEFAULT
-      #define LCD_BRIGHTNESS_DEFAULT 64
+      #define LCD_BRIGHTNESS_DEFAULT 19
+    #endif
+    #ifndef LCD_BRIGHTNESS_STEPS
+      #define LCD_BRIGHTNESS_STEPS 20
     #endif
     static uint8_t brightness;
     static bool backlight;
     static bool freeze_max_update_time;
-    static void _set_brightness(); // Implementation-specific
+    static uint8_t brightnessPWM[LCD_BRIGHTNESS_STEPS];
+    static void _set_brightness(uint8_t raw = 0); // Implementation-specific
     static void set_brightness(const uint8_t value);
+    static void set_brightness_raw(const uint8_t value);
     FORCE_INLINE static void refresh_brightness() { set_brightness(brightness); }
   #endif
 
@@ -699,11 +698,7 @@ public:
 
     static void update_buttons();
 
-    #if HAS_ENCODER_NOISE
-      #ifndef ENCODER_SAMPLES
-        #define ENCODER_SAMPLES 10
-      #endif
-
+    #if ENABLED(ENCODER_NOISE_FILTER)
       /**
        * Some printers may have issues with EMI noise especially using a motherboard with 3.3V logic levels
        * it may cause the logical LOW to float into the undefined region and register as a logical HIGH

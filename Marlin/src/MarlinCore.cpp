@@ -790,7 +790,7 @@ void idle(bool no_stepper_sleep/*=false*/) {
   manage_inactivity(no_stepper_sleep);
 
   // Manage Heaters (and Watchdog)
-  thermalManager.manage_heater();
+  thermalManager.task();
 
   // Max7219 heartbeat, animation, etc
   TERN_(MAX7219_DEBUG, max7219.idle_tasks());
@@ -1346,6 +1346,8 @@ void setup() {
 
   TERN_(HAS_FANCHECK, fan_check.init());
 
+  f_mount(&FS_flash, DISK_FLASH, 1);
+
   SETUP_RUN(settings.first_load()); // Load data from EEPROM if available (or use defaults)
                                       // This also updates variables in the planner, elsewhere
 
@@ -1647,9 +1649,7 @@ void setup() {
     SETUP_RUN(easythreed_ui.init());
   #endif
   
-  #if ENABLED(MKS_WIFI)
-    mks_wifi_init();
-  #endif
+  mks_wifi_init();
 
   #if HAS_TRINAMIC_CONFIG && DISABLED(PSU_DEFAULT_OFF)
     SETUP_RUN(test_tmc_connection());

@@ -93,7 +93,7 @@ char CardReader::proc_filenames[SD_PROCEDURE_DEPTH][MAXPATHNAMELENGTH];
 CardReader::CardReader()
 {
     flag.sdprinting = flag.sdprintdone = flag.saving = flag.logging = false;
-    FATFS_sd.fs_type = 0;
+    FS_sd.fs_type = 0;
     curfile.obj.fs = 0;
     curfilinfo.fname[0] = 0;
     curfilinfo.altname[0] = 0;
@@ -156,10 +156,10 @@ void announceOpen(const uint8_t doing, const char *const path)
 //   - 2 : Resuming from a sub-procedure
 //   - 9 : Just open file
 //
-void CardReader::openFileRead(const char *const path, const uint8_t subcall_type /*=0*/)
+bool CardReader::openFileRead(const char *const path, const uint8_t subcall_type /*=0*/)
 {
     if (!isMounted() || path == 0)
-        return;
+        return false;
 
     switch (subcall_type)
     {
@@ -185,7 +185,7 @@ void CardReader::openFileRead(const char *const path, const uint8_t subcall_type
         {
             SERIAL_ERROR_MSG("Exceeded max SUBROUTINE depth:", SD_PROCEDURE_DEPTH);
             kill(GET_TEXT_F(MSG_KILL_SUBCALL_OVERFLOW));
-            return;
+            return false;
         }
 
         // Store current filename (based on workDirParents) and position
@@ -230,7 +230,10 @@ void CardReader::openFileRead(const char *const path, const uint8_t subcall_type
     {
         openFailed(curfilinfo.fname);
         memset(&curfilinfo, 0, sizeof(curfilinfo));
+        return false;
     }
+
+    return true;
 }
 
 inline void echo_write_to_file(const char *const fname)
@@ -241,32 +244,41 @@ inline void echo_write_to_file(const char *const fname)
 //
 // Open a file by DOS path for write
 //
-void CardReader::openFileWrite(const char *const path)
+bool CardReader::openFileWrite(const char *const path, bool owerwrite /*= false*/)
 {
     if (!isMounted())
-        return;
+        return false;
 
     announceOpen(2, path);
     TERN_(HAS_MEDIA_SUBCALLS, file_subcall_ctr = 0);
 
     abortFilePrintNow();
 
-    char *fname = FATFS_GetFilenameFromPathUTF((char*)path);
+    char *fname = FATFS_GetFilenameFromPathUTF((char*)path); 
 
 #if ENABLED(SDCARD_READONLY)
         openFailed(fname);
 #else
-        if (f_open(&curfile, path, FA_WRITE | FA_OPEN_ALWAYS | FA_OPEN_APPEND) == FR_OK)
+    BYTE flags = FA_WRITE;
+    if (owerwrite)
+        flags |= FA_CREATE_ALWAYS;
+    else
+        flags |= FA_OPEN_ALWAYS | FA_OPEN_APPEND;
+    if (f_open(&curfile, path, flags) == FR_OK)
     {
         flag.saving = true;
         selectFileByName(path);
         TERN_(EMERGENCY_PARSER, emergency_parser.disable());
         echo_write_to_file(fname);
         ui.set_status(fname);
+        return true;
     }
     else
+    {
         openFailed(path);
+    }
 #endif
+    return false;
 }
 
 
@@ -381,15 +393,13 @@ void CardReader::ls(bool includeLongNames /*=true*/)
 {
     if (isMounted())
     {
-#if ENABLED(MKS_WIFI)
-        serial_index_t port = queue.ring_buffer.command_port();
-        if (port.index == MKS_WIFI_SERIAL_NUM)
-            printListing(includeLongNames);
-        else
-            printListing(includeLongNames);
-#else
-        printListing(root OPTARG(LONG_FILENAME_HOST_SUPPORT, includeLongNames));
-#endif
+    serial_index_t port = queue.ring_buffer.command_port();
+    if (port.index == MKS_WIFI_SERIAL_NUM)
+        printListing(includeLongNames);
+    else
+        printListing(includeLongNames);
+
+//    printListing(root OPTARG(LONG_FILENAME_HOST_SUPPORT, includeLongNames));
     }
 }
 
@@ -805,7 +815,42 @@ void CardReader::selectFileByIndex(const uint16_t nr)
 bool CardReader::isFileMustShow(FILINFO *finfo)
 {
     char *fext = FATFS_GetFileExtensionUTF(finfo->fname);
-    if ((strcmp(fext, "gcode") == 0) && !(finfo->fattrib & AM_HID))
+    if ((strcmp(fext, "gcode") == 0 || strcmp(fext, "ini") == 0) && !(finfo->fattrib & AM_HID))
+        return true;
+
+    return false;
+}
+
+bool CardReader::isFilePrintable(FILINFO *finfo /*= NULL*/)
+{
+    FILINFO *fi = finfo;
+    if (fi == NULL)
+        fi = &curfilinfo;
+    char *fext = FATFS_GetFileExtensionUTF(fi->fname);
+    if ((strcmp(fext, "gcode") == 0) && !(fi->fattrib & AM_HID) && !(fi->fattrib & AM_DIR))
+        return true;
+
+    return false;
+}
+
+bool CardReader::isFileConfig(FILINFO *finfo /*= NULL*/)
+{
+    FILINFO *fi = finfo;
+    if (fi == NULL)
+        fi = &curfilinfo;
+    char *fext = FATFS_GetFileExtensionUTF(fi->fname);
+    if ((strcmp(fext, "ini") == 0) && !(fi->fattrib & AM_HID) && !(fi->fattrib & AM_DIR))
+        return true;
+
+    return false;
+}
+
+bool CardReader::isFileDir(FILINFO *finfo /*= NULL*/)
+{
+    FILINFO *fi = finfo;
+    if (fi == NULL)
+        fi = &curfilinfo;
+    if (!(fi->fattrib & AM_HID) && (fi->fattrib & AM_DIR))
         return true;
 
     return false;
@@ -936,7 +981,7 @@ bool CardReader::mount(bool wifi)
 {
     FRESULT res = FR_OK;
 
-    if ((res = f_mount(&FATFS_sd, DISK_SD, 1)) != FR_OK)
+    if ((res = f_mount(&FS_sd, DISK_SD, 1)) != FR_OK)
     {
         if (wifi)
             SERIAL_ECHO_MSG("WIFI: " STR_SD_INIT_FAIL);

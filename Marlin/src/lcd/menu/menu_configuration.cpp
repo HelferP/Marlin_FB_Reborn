@@ -516,7 +516,7 @@ void menu_configuration() {
   #endif
 
   #if HAS_LCD_BRIGHTNESS
-    EDIT_ITEM_FAST(uint8, MSG_BRIGHTNESS, &ui.brightness, LCD_BRIGHTNESS_MIN, LCD_BRIGHTNESS_MAX, ui.refresh_brightness, true);
+    EDIT_ITEM_FAST(uint8, MSG_BRIGHTNESS, &ui.brightness, 1, LCD_BRIGHTNESS_STEPS, ui.refresh_brightness, true);
   #endif
   #if HAS_LCD_CONTRAST && LCD_CONTRAST_MIN < LCD_CONTRAST_MAX
     EDIT_ITEM_FAST(uint8, MSG_CONTRAST, &ui.contrast, LCD_CONTRAST_MIN, LCD_CONTRAST_MAX, ui.refresh_contrast, true);
@@ -560,6 +560,7 @@ void menu_configuration() {
   #if ENABLED(EEPROM_SETTINGS)
     ACTION_ITEM(MSG_STORE_EEPROM, ui.store_settings);
     if (!busy) ACTION_ITEM(MSG_LOAD_EEPROM, ui.load_settings);
+    if (!busy) ACTION_ITEM(MSG_STORE_CONFIG_FILE, []{ queue.enqueue_now_P("M5000"); });
   #endif
 
   if (!busy) ACTION_ITEM(MSG_RESTORE_DEFAULTS, ui.reset_settings);

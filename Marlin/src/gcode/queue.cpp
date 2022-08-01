@@ -384,7 +384,7 @@ inline bool process_line_done(uint8_t &sis, char (&buff)[MAX_CMD_SIZE], int &ind
   buff[ind] = '\0';                   // Of course, I'm a Terminator.
   const bool is_empty = (ind == 0);   // An empty line?
   if (is_empty)
-    thermalManager.manage_heater();   // Keep sensors satisfied
+    thermalManager.task();            // Keep sensors satisfied
   else
     ind = 0;                          // Start a new line
   return is_empty;                    // Inform the caller
@@ -434,7 +434,6 @@ void GCodeQueue::get_serial_commands() {
       hadData = true;
 
       const int c = read_serial(p);
-      #ifdef MKS_WIFI
       /* 
       Если данные от WIFI модуля пропускаем через парсер бинарного протокола. 
       текстовую часть с G-Code пропускаем дальше 
@@ -443,7 +442,6 @@ void GCodeQueue::get_serial_commands() {
         mks_wifi_input(c);
         continue;
       };
-      #endif
 
       if (c < 0) {
         // This should never happen, let's log it

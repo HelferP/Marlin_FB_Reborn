@@ -347,7 +347,8 @@ namespace Language_ru {
   LSTR  MSG_MOVE_E                          = _UxGT("Экструдер");
   LSTR  MSG_MOVE_EN                         = _UxGT("Экструдер *");
   LSTR  MSG_HOTEND_TOO_COLD                 = _UxGT("Сопло не нагрето");
-  LSTR  MSG_MOVE_N_MM                       = _UxGT("Движение %sмм");
+  LSTR  MSG_MOVE_N_MM                       = _UxGT("Движение $мм");
+  LSTR  MSG_MOVE_0025MM                     = _UxGT("Движение 0.025мм");
   LSTR  MSG_MOVE_01MM                       = _UxGT("Движение 0.1мм");
   LSTR  MSG_MOVE_1MM                        = _UxGT("Движение 1мм");
   LSTR  MSG_MOVE_10MM                       = _UxGT("Движение 10мм");
@@ -467,8 +468,9 @@ namespace Language_ru {
   LSTR  MSG_ADVANCE_K_E                     = _UxGT("К-фактор LA *");
   LSTR  MSG_CONTRAST                        = _UxGT("Контраст экрана");
   LSTR  MSG_BRIGHTNESS                      = _UxGT("Яркость экрана");
-  LSTR  MSG_STORE_EEPROM                    = _UxGT("Сохранить настройки");
-  LSTR  MSG_LOAD_EEPROM                     = _UxGT("Загрузить настройки");
+  LSTR  MSG_STORE_EEPROM                    = _UxGT("Сохранить настройки в EPROM");
+  LSTR  MSG_STORE_CONFIG_FILE               = _UxGT("Сохранить настройки в файл");
+  LSTR  MSG_LOAD_EEPROM                     = _UxGT("Загрузить настройки из EPROM");
   #if LCD_WIDTH > 21 || HAS_DWIN_E3V2
     LSTR  MSG_RESTORE_DEFAULTS              = _UxGT("Сброс на заводские");
     LSTR  MSG_INIT_EEPROM                   = _UxGT("Инициализация EEPROM");
@@ -961,6 +963,25 @@ namespace Language_ru {
   LSTR MSG_BED1                           = _UxGT("Стол");
 
   LSTR MSG_CHANGE                         = _UxGT("Изменить");
+
+  LSTR MSG_CFG_LOAD_ERROR                 = _UxGT("Ошибка загрузки настроек из файла \"%s\", в строке %d");
+  LSTR MSG_LOAD_SETTINGS_FROM_FILE        = _UxGT("Загрузить настройки из файла");
+
+  LSTR MSG_PAUSE_CHANGE                   = _UxGT("Пауза / Замена прутка");
+  LSTR MSG_PAUSE_HEATER_TIMEOUT           = _UxGT("Таймаут нагрева, сек");
+  LSTR MSG_PAUSE_PARK_X                   = _UxGT("Координаты парковки X, мм");
+  LSTR MSG_PAUSE_PARK_Y                   = _UxGT("Координаты парковки Y, мм");
+  LSTR MSG_PAUSE_PARK_Z                   = _UxGT("Подъем перед парковкой Z, мм");
+  LSTR MSG_PAUSE_MOVE_FEEDRATE            = _UxGT("Скорость на парковку, мм/с");
+  LSTR MSG_PAUSE_RETRACT_FEEDRATE         = _UxGT("Скорость ретракта, мм/с");
+  LSTR MSG_PAUSE_RETRACT_LENGTH           = _UxGT("Длина ретракта, мм");
+  LSTR MSG_PAUSE_UNLOAD_FEEDRATE          = _UxGT("Скорость выгрузки, мм/с");
+  LSTR MSG_PAUSE_UNLOAD_LENGTH            = _UxGT("Длина выгрузки, мм");
+  LSTR MSG_PAUSE_SLOW_LOAD_FEEDRATE       = _UxGT("Скорость медл.загрузки, мм/с");
+  LSTR MSG_PAUSE_SLOW_LOAD_LENGTH         = _UxGT("Длина медл.загрузки, мм");
+  LSTR MSG_PAUSE_FAST_LOAD_FEEDRATE       = _UxGT("Скорость быстр.загрузки, мм/с");
+  LSTR MSG_PAUSE_FAST_LOAD_LENGTH         = _UxGT("Длина быстр.загрузки, мм");
+
 
 }
 

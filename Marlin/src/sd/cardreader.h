@@ -70,7 +70,7 @@ public:
 
   static bool mount(bool wifi = false);
   static void release();
-  static bool isMounted() { return FATFS_sd.fs_type != 0; }
+  static bool isMounted() { return FS_sd.fs_type != 0; }
   static bool isRootDir();
 
   // Handle media insert/remove
@@ -89,8 +89,8 @@ public:
   #endif
 
   // Basic file ops
-  static void openFileRead(const char * const path, const uint8_t subcall=0);
-  static void openFileWrite(const char * const path);
+  static bool openFileRead(const char * const path, const uint8_t subcall=0);
+  static bool openFileWrite(const char * const path, bool owerwrite = false);
   static void removeFile(const char * const name);
   static void closefile(const bool store_location=false);
   static char* longest_filename() { return curfilinfo.fname[0] ? curfilinfo.fname : curfilinfo.altname; }
@@ -136,9 +136,12 @@ public:
     return 0;
   }
 
-  FORCE_INLINE static void getfilename_sorted(const uint16_t nr) { selectFileByIndex(nr); }
-  FORCE_INLINE static bool isFileMustShow(FILINFO *finfo);
-  FORCE_INLINE static bool isDirMustShow(FILINFO *finfo);
+  static void getfilename_sorted(const uint16_t nr) { selectFileByIndex(nr); }
+  static bool isFileMustShow(FILINFO *finfo);
+  static bool isFilePrintable(FILINFO *finfo = NULL);
+  static bool isFileConfig(FILINFO *finfo = NULL);
+  static bool isFileDir(FILINFO *finfo = NULL);
+  static bool isDirMustShow(FILINFO *finfo);
 
   static void ls(bool includeLongNames = true);
 

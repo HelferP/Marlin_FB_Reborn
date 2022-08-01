@@ -9,7 +9,6 @@
 #include "uart.h"
 #include "../../libs/numtostr.h"
 
-#ifdef MKS_WIFI
 
 #if ENABLED(TFT_480x320) || ENABLED(TFT_480x320_SPI)
 #include "mks_wifi_ui.h"
@@ -137,7 +136,7 @@ void mks_wifi_start_file_upload(ESP_PROTOC_FRAME *packet)
 
    thermalManager.setTargetBed(0);
    thermalManager.setTargetHotend(0,0);
-   thermalManager.manage_heater();
+   thermalManager.task();
  	//Установить имя файла. Смещение на 3 байта, чтобы добавить путь к диску
    file_name[0]='0';
    file_name[1]=':';
@@ -549,4 +548,3 @@ extern "C" void DMA2_Stream5_IRQHandler(void){
 }
 #endif
 
-#endif

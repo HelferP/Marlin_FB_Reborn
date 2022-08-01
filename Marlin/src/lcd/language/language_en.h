@@ -313,6 +313,7 @@ namespace Language_en {
   LSTR MSG_MOVE_EN                        = _UxGT("Move *");
   LSTR MSG_HOTEND_TOO_COLD                = _UxGT("Hotend too cold");
   LSTR MSG_MOVE_N_MM                      = _UxGT("Move $mm");
+  LSTR MSG_MOVE_0025MM                    = _UxGT("Move 0.025mm");
   LSTR MSG_MOVE_01MM                      = _UxGT("Move 0.1mm");
   LSTR MSG_MOVE_1MM                       = _UxGT("Move 1mm");
   LSTR MSG_MOVE_10MM                      = _UxGT("Move 10mm");
@@ -425,8 +426,9 @@ namespace Language_en {
   LSTR MSG_LCD_TIMEOUT_SEC                = _UxGT("LCD Timeout (s)");
   LSTR MSG_SCREEN_TIMEOUT                 = _UxGT("LCD Timeout (m)");
   LSTR MSG_BRIGHTNESS_OFF                 = _UxGT("Backlight Off");
-  LSTR MSG_STORE_EEPROM                   = _UxGT("Store Settings");
-  LSTR MSG_LOAD_EEPROM                    = _UxGT("Load Settings");
+  LSTR MSG_STORE_EEPROM                   = _UxGT("Store Settings to EPROM");
+  LSTR MSG_STORE_CONFIG_FILE              = _UxGT("Save Settings to file");
+  LSTR MSG_LOAD_EEPROM                    = _UxGT("Load Settings from EPROM");
   LSTR MSG_RESTORE_DEFAULTS               = _UxGT("Restore Defaults");
   LSTR MSG_INIT_EEPROM                    = _UxGT("Initialize EEPROM");
   LSTR MSG_ERR_EEPROM_CRC                 = _UxGT("EEPROM CRC Error");
@@ -871,6 +873,24 @@ namespace Language_en {
   LSTR MSG_BED1                           = _UxGT("Bed");
 
   LSTR MSG_CHANGE                         = _UxGT("Change");
+
+  LSTR MSG_CFG_LOAD_ERROR                 = _UxGT("Error load settings from file \"%s\", in line %d");
+  LSTR MSG_LOAD_SETTINGS_FROM_FILE        = _UxGT("Load settings from file");
+
+  LSTR MSG_PAUSE_CHANGE                   = _UxGT("Pause / Filament change");
+  LSTR MSG_PAUSE_HEATER_TIMEOUT           = _UxGT("Heat timeout, s");
+  LSTR MSG_PAUSE_PARK_X                   = _UxGT("Parking point X, mm");
+  LSTR MSG_PAUSE_PARK_Y                   = _UxGT("Parking point Y, mm");
+  LSTR MSG_PAUSE_PARK_Z                   = _UxGT("Lift before parking Z, mm");
+  LSTR MSG_PAUSE_MOVE_FEEDRATE            = _UxGT("Parking feedrate, mm/s");
+  LSTR MSG_PAUSE_RETRACT_FEEDRATE         = _UxGT("Retract feedrate, mm/s");
+  LSTR MSG_PAUSE_RETRACT_LENGTH           = _UxGT("Retract length, mm");
+  LSTR MSG_PAUSE_UNLOAD_FEEDRATE          = _UxGT("Unload feedrate, mm/s");
+  LSTR MSG_PAUSE_UNLOAD_LENGTH            = _UxGT("Unload length, mm");
+  LSTR MSG_PAUSE_SLOW_LOAD_FEEDRATE       = _UxGT("Slow load feedrate, mm/s");
+  LSTR MSG_PAUSE_SLOW_LOAD_LENGTH         = _UxGT("Slow load length, mm");
+  LSTR MSG_PAUSE_FAST_LOAD_FEEDRATE       = _UxGT("Fast load feedrate, mm/s");
+  LSTR MSG_PAUSE_FAST_LOAD_LENGTH         = _UxGT("Fast load length, mm");
 
 
   // These strings can be the same in all languages
