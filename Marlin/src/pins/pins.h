@@ -508,7 +508,7 @@
 #elif MB(MKS_ROBIN_MINI)
   #include "stm32f1/pins_MKS_ROBIN_MINI.h"      // STM32F1                                env:mks_robin_mini env:mks_robin_mini_maple
 #elif MB(MKS_ROBIN_NANO)
-  #include "stm32f1/pins_MKS_ROBIN_NANO.h"      // STM32F1                                env:mks_robin_nano35_x32 env:mks_robin_nano35_x16 env:mks_robin_nano35_maple env:mks_robin_nano35_x16_REBORN env:mks_robin_nano35_x16_GHOST_4S env:mks_robin_nano35_x16_GHOST_5
+  #include "stm32f1/pins_MKS_ROBIN_NANO.h"      // STM32F1                                env:mks_robin_nano35 env:mks_robin_nano35_x32 env:mks_robin_nano35_x16 env:mks_robin_nano35_maple env:mks_robin_nano35_x16_REBORN env:mks_robin_nano35_x16_GHOST_4S env:mks_robin_nano35_x16_GHOST_5
 #elif MB(MKS_ROBIN_NANO_V2)
   #include "stm32f1/pins_MKS_ROBIN_NANO_V2.h"   // STM32F1                                env:mks_robin_nano35 env:mks_robin_nano35_maple
 #elif MB(MKS_ROBIN_LITE)
