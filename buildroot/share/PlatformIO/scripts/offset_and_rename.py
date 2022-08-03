@@ -11,11 +11,9 @@
 import pioutil
 if pioutil.is_pio_build():
 	import os,sys,marlin
-	Import("env")
 
-	from SCons.Script import DefaultEnvironment
-	board = DefaultEnvironment().BoardConfig()
-
+	env = marlin.env
+	board = env.BoardConfig()
 	board_keys = board.get("build").keys()
 
 	#
