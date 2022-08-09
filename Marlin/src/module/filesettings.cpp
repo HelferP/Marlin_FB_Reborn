@@ -770,6 +770,7 @@ bool FileSettings::LoadSettings(char *fname /*= NULL*/)
 	PARAM_VALUE	pval;
 
   bool        fwretr_update = false;
+  bool        bedlevel_update = false;
 
   if (fname == NULL || strlen(fname) < 2)
     filename = (char*)"/printer_settings.ini";
@@ -1034,7 +1035,7 @@ bool FileSettings::LoadSettings(char *fname /*= NULL*/)
           if (pval.float_val > GRID_MAX_POINTS_X)
             pval.float_val = GRID_MAX_POINTS_X;
           bedlevel_settings.bedlevel_points.x = (uint8_t)pval.float_val;
-          bedlevel.refresh_bed_level();
+          bedlevel_update = true;;
           params++;
           break;
         }
@@ -1050,7 +1051,7 @@ bool FileSettings::LoadSettings(char *fname /*= NULL*/)
           if (pval.float_val > GRID_MAX_POINTS_Y)
             pval.float_val = GRID_MAX_POINTS_Y;
           bedlevel_settings.bedlevel_points.y = (uint8_t)pval.float_val;
-          bedlevel.refresh_bed_level();
+          bedlevel_update = true;;
           params++;
           break;
         }
@@ -1081,7 +1082,7 @@ bool FileSettings::LoadSettings(char *fname /*= NULL*/)
               break;
             ix = 0;
           }
-          bedlevel.refresh_bed_level();
+          bedlevel_update = true;;
           params++;
           break;
         }
@@ -2066,6 +2067,15 @@ bool FileSettings::LoadSettings(char *fname /*= NULL*/)
 
   if (fwretr_update)
     fwretract.refresh_autoretract();
+
+  if (bedlevel_update)
+  {
+    set_bed_leveling_enabled(false);
+    bedlevel.refresh_bed_level();
+    if (planner.leveling_active)
+      set_bed_leveling_enabled(true);
+  }
+
 
   if (wres)
   {
